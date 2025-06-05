@@ -11,18 +11,14 @@ export default function Navbar() {
   const { cart } = useCart()
   const router = useRouter()
 
-  // Search state
   const [query, setQuery] = useState("")
 
-  // Count distinct item types
   const itemTypeCount = cart.length
 
-  // Animation states
   const [animateIcon, setAnimateIcon] = useState(false)
   const [animateBadge, setAnimateBadge] = useState(false)
   const [prevCount, setPrevCount] = useState(itemTypeCount)
 
-  // Animate badge/icon on new item type
   useEffect(() => {
     if (itemTypeCount > prevCount) {
       setAnimateIcon(true)
@@ -50,7 +46,7 @@ export default function Navbar() {
         </Link>
 
         {/* Search Form */}
-        <form onSubmit={handleSearch} className="flex">
+        <form onSubmit={handleSearch} className="flex" role="Search">
           <input
             type="text"
             value={query}

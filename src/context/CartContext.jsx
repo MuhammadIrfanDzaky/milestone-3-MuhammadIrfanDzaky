@@ -6,13 +6,11 @@ export function CartProvider({ children }) {
     const [cart, setCart] = useState([]);
     const [lastAddedCount, setLastAddedCount] = useState(0);
 
-  // Rehydrate cart
     useEffect(() => {
         const stored = localStorage.getItem('cart');
         if (stored) setCart(JSON.parse(stored));
     }, []);
 
-  // Persist cart
     useEffect(() => {
         localStorage.setItem('cart', JSON.stringify(cart));
         setLastAddedCount(cart.reduce((sum, i) => sum + i.quantity, 0));

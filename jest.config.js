@@ -3,7 +3,17 @@ module.exports = {
     moduleNameMapper: {
         '\\.(css|scss)$': 'identity-obj-proxy',
         '^@/(.*)$': '<rootDir>/$1',
+    collectCoverage: true,
+    collectCoverageFrom: [
+        'src/**/*.{js,jsx,ts,tsx}',
+        '!src/**/*.test.{js,jsx,ts,tsx}',
+        '!src/**/index.{js,jsx,ts,tsx}',
+    ],
+    coverageReporters: ['html', 'text-summary'],
     },
+    testMatch: [
+        '**/?(*.)+(spec|test).[jt]s?(x)',
+    ],
     coverageThreshold: {
         global: {
             branches: 50,
