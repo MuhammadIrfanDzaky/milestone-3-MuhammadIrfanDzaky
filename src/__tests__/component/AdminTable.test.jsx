@@ -28,13 +28,13 @@ describe('AdminTable Component', () => {
   test('renders product table with correct data', () => {
     render(<AdminTable products={mockProducts} />);
 
-    // Check table headers
+    // table headers
     expect(screen.getByText('Title')).toBeInTheDocument();
     expect(screen.getByText('Price')).toBeInTheDocument();
     expect(screen.getByText('Category')).toBeInTheDocument();
     expect(screen.getByText('Actions')).toBeInTheDocument();
 
-    // Check product data
+    // product data
     expect(screen.getByText('Laptop')).toBeInTheDocument();
     expect(screen.getByText('$999')).toBeInTheDocument();
     expect(screen.getAllByText('Electronics')).toHaveLength(2);
@@ -90,6 +90,7 @@ describe('AdminTable Component', () => {
     });
   });
 
+  // test case 6 : check if the component does not delete product if confirm is cancelled
   test('does not delete product if confirm is cancelled', () => {
     jest.spyOn(window, 'confirm').mockReturnValue(false);
 
@@ -105,6 +106,7 @@ describe('AdminTable Component', () => {
     expect(screen.getByText('T-Shirt')).toBeInTheDocument();
   });
 
+  // test case 7 : check if the component displays "—" for products with no category
   test('displays "—" for products with no category', () => {
     const mockProductsWithNoCategory = [
       { id: 1, title: 'Laptop', price: 999, category: null }, // category is null

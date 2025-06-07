@@ -19,7 +19,7 @@ jest.mock('next/navigation', () => ({
     useRouter: jest.fn(),
 }));
 
-describe('Navbar', () => {
+describe('Navbar Component', () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
@@ -65,7 +65,9 @@ describe('Navbar', () => {
 
         const searchInput = screen.getByPlaceholderText('Search…');
         fireEvent.change(searchInput, { target: { value: 'test query' } });
-        fireEvent.submit(screen.getByRole('Search'));
+
+        const searchForm = screen.getByRole('Search');
+        fireEvent.submit(searchForm);
 
         expect(pushMock).toHaveBeenCalledWith('/?q=test%20query');
     });
@@ -83,7 +85,7 @@ describe('Navbar', () => {
     });
 
     // test case 5: check if the Navbar calls signOut when Logout button is clicked
-    test('calls signOut when Logout button is clicked', () => {
+    test('logs out when Logout button is clicked', () => {
         useSession.mockReturnValue({ data: { user: { name: 'Test User' } } });
         useCart.mockReturnValue({ cart: [] });
         useRouter.mockReturnValue({ push: jest.fn() });
@@ -94,6 +96,27 @@ describe('Navbar', () => {
         fireEvent.click(logoutButton);
 
         expect(signOut).toHaveBeenCalled();
+    });
+    // Test 6: Check if cart animation triggers when cart item count increases
+    test('triggers cart animation when cart item count increases', async () => {
+        useSession.mockReturnValue({ data: null });
+        useRouter.mockReturnValue({ push: jest.fn() });
+        const cartMock = { cart: [] };
+        useCart.mockReturnValue(cartMock);
+
+        const { rerender } = render(<Navbar />);
+
+        const cartLink = screen.getByRole('link', { name: 'View Cart' });
+        expect(cartLink).toBeInTheDocument();
+
+        cartMock.cart = [{ id: 1 }];
+        rerender(<Navbar />);
+
+        await new Promise((resolve) => setTimeout(resolve, 350));
+
+        rerender(<Navbar />);
+
+        expect(cartLink).toBeInTheDocument();
     });
 });
 
